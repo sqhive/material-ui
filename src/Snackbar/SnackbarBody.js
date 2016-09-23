@@ -38,8 +38,8 @@ function getStyles(props, context) {
       borderRadius: isSmall ? 0 : 2,
       maxWidth: isSmall ? 'inherit' : 568,
       minWidth: isSmall ? 'inherit' : 288,
+      width: isSmall ? `calc(100vw - ${desktopGutter * 2}px)` : 'auto',
       flexGrow: isSmall ? 1 : 0,
-      margin: 'auto',
     },
     content: {
       fontSize: 14,
@@ -64,9 +64,10 @@ function getStyles(props, context) {
 
 export const SnackbarBody = (props, context) => {
   const {
-    open, // eslint-disable-line no-unused-vars
     action,
+    contentStyle,
     message,
+    open, // eslint-disable-line no-unused-vars
     onActionTouchTap,
     style,
     ...other,
@@ -85,7 +86,7 @@ export const SnackbarBody = (props, context) => {
 
   return (
     <div {...other} style={prepareStyles(Object.assign(styles.root, style))}>
-      <div style={prepareStyles(styles.content)}>
+      <div style={prepareStyles(Object.assign(styles.content, contentStyle))}>
         <span>{message}</span>
         {actionButton}
       </div>
@@ -98,6 +99,10 @@ SnackbarBody.propTypes = {
    * The label for the action on the snackbar.
    */
   action: PropTypes.node,
+  /**
+   * Override the inline-styles of the content element.
+   */
+  contentStyle: PropTypes.object,
   /**
    * The message to be displayed.
    *
